@@ -41,7 +41,8 @@ X7U-jailbreak/
 │   ├── rootdclient.c               # 连 rootd 执行 root 命令
 │   └── {leakprobe,spraytest,pfntest,maptest,reclaimprobe}.c
 ├── app/                            # Android 一键前端（Shizuku/Stellar 驱动）
-└── docs/PORT-NOTES.md              # 移植过程与踩坑记录
+├── tools/capture-kmsg.sh           # 真机内核日志落盘（排障用）
+└── docs/                           # 本地保留，不入库（PORT-NOTES/HANDOFF/截图）
 ```
 
 ## 构建 exploit
