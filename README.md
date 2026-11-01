@@ -76,14 +76,16 @@ adb push tools/rootdclient.c 编译产物 /data/local/tmp/
 - 管理器下拉保留 KernelSU / KernelSU Next / FinaSU / BakaSU / SukiSU Ultra；
 - ksud 不随包内置，运行时从已安装管理器 APK 的 `lib/arm64` 原地执行（与原工程一致）。
 
-构建前提（本机当前缺）：**JDK 21**、**Android SDK platform 37 + build-tools**、NDK。
-Gradle wrapper 会自行下载 Gradle。示例：
+构建前提：**JDK 21**、**Android SDK platform 37 + build-tools**。仓库自带免 sudo 的引导脚本，
+会在 `work/tools/` 下装项目内 JDK/SDK 并直接出包（依赖已核对可解析：AGP 9.4.1、
+Miuix 0.9.4、Compose BOM 2026.09.00、Stellar API 1.0.3、Gradle 9.7.1、platform 37）：
 
 ```bash
-brew install --cask temurin@21
-sdkmanager "platforms;android-37" "build-tools;37.0.0"
-cd app && ./gradlew :app:assembleDebug
+bash tools/bootstrap-android.sh     # -> app/app/build/outputs/apk/debug/
 ```
+
+想要 release 包再补 signing：复制 `app/keystore.properties.example` 并跑
+`./gradlew :app:assembleRelease`。
 
 ## 已知问题
 
