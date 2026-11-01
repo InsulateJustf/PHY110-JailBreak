@@ -5,6 +5,8 @@ local.properties
 .kotlin/
 *.apk
 *.aab
+# upstream KernelSU manager is shipped intentionally
+!prebuilt/kernelsu/*.apk
 
 # Signing
 keystore.properties
