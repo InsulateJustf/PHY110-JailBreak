@@ -950,11 +950,11 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun runStreaming(cmd: Array<String>, dir: String): Int {
-        val env = shizukuEnv() + "PHY110_DIR=$dir" + "PHY110_MANAGER=${manager.manager}" +
-            "PHY110_LATE_LOAD=1" +
-            "PHY110_UNLOAD_GUARD=${if (unloadGuard) "1" else "0"}" +
-            "PHY110_DISABLE_ANTIROOT=${if (antiRootGuard) "1" else "0"}" +
-            "PHY110_SUSFS=${if (susfsSupport) "1" else "0"}"
+        val env = shizukuEnv() + "PYB110_DIR=$dir" + "PYB110_MANAGER=${manager.manager}" +
+            "PYB110_LATE_LOAD=1" +
+            "PYB110_UNLOAD_GUARD=${if (unloadGuard) "1" else "0"}" +
+            "PYB110_DISABLE_ANTIROOT=${if (antiRootGuard) "1" else "0"}" +
+            "PYB110_SUSFS=${if (susfsSupport) "1" else "0"}"
         val p = PrivService.newProcess(cmd, env, dir)
         val out = p.getInputStream()
         val err = p.getErrorStream()
