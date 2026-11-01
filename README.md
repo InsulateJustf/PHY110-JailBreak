@@ -17,9 +17,11 @@
 | rb_erase 写原语 | ✅ | `NODE_MARKER=1`（节点被擦除）、`SELF_WRITE=1`（零写落点正确） |
 | SELinux Permissive | ✅ | `selinux_state - 7` 零写，`getenforce` → `Permissive` |
 | 内核态 uid 0 | ✅ | `Uid: 0 0 0 0`、`CapEff: 000001ffffffffff`、`id -u` = 0 |
-| 持久 root（KernelSU） | ⏳ | 缺 `ksud late-load --kmi android14-6.1`（KMI 已确认） |
+| KernelSU LKM | ✅ | `ksud late-load --kmi android14-6.1` → `kernelsu 225280 0 - Live` |
+| 持久 root（su） | ✅ | `su -c "id"` → `uid=0 context=u:r:ksu:s0`，SELinux 恢复 Enforcing |
 
-当前 root 是**进程级、重启失效**的；rootd 在 `/data/local/tmp/phy110-root.sock`。
+重启后 LKM 不保留：每次开机由 App（或手工 `--auto`）重新跑一次漏洞再 `late-load`，
+与上游 jailbreak 模式一致。
 
 ## 目录
 
@@ -87,11 +89,34 @@ bash tools/bootstrap-android.sh     # -> app/app/build/outputs/apk/debug/
 想要 release 包再补 signing：复制 `app/keystore.properties.example` 并跑
 `./gradlew :app:assembleRelease`。
 
+## 实测完整流程（2026-11-01）
+
+```bash
+# 0) 干净开机，安装管理器（流式安装会被 ColorOS 拒绝，必须 push 安装）
+adb install --no-streaming -r KernelSU_v3.3.1_32680-release.apk
+
+# 1) 后台跑漏洞，拿到内核 root 与 rootd
+adb shell 'setsid /data/local/tmp/t98260-p __plant --auto >/data/local/tmp/plant.log 2>&1 </dev/null &'
+# 日志出现 PLANT_CRED_OK / ROOTD_LISTEN 即可
+
+# 2) 通过 rootd 载入 LKM（KMI android14-6.1）
+/data/local/tmp/rootdclient -c "/data/local/tmp/ksud late-load --kmi android14-6.1 \
+  --allow-shell --package-name me.weishu.kernelsu"
+
+# 3) 验证：KernelSU 已接管，SELinux 回到 Enforcing
+su -c "id; getenforce"
+#   uid=0(root) ... context=u:r:ksu:s0
+#   Enforcing
+grep kernelsu /proc/modules     # kernelsu 225280 0 - Live
+```
+
+注意：`late-load` 成功后 SELinux 恢复 Enforcing，rootd socket 对 shell 不再可达，
+后续一律用 `su -c`。
+
 ## 已知问题
 
-- **ColorOS 拒绝 `adb install` 流式安装**：实测 `Failure [-99]`。改用
-  `adb push x.apk /data/local/tmp/ && adb shell pm install -r /data/local/tmp/x.apk`，
-  或在设置里允许“USB 安装/未知来源”后再装。
+- **ColorOS 拒绝 `adb install` 流式安装**：实测 `Failure [-99]`（`pm install` 同样失败）。
+  **`adb install --no-streaming -r` 可绕过**，已实测成功。
 - 第一次运行需要干净开机；失败路径会留下一个**不回收**的僵尸进程（这是防止
   `rb_erase` 打到别人页上的保护），下次运行前建议重启。
 - 任何一次 reclaim 未命中都**不会** panic（会重试），但若命中检测误判仍可能崩；
