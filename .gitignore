@@ -23,3 +23,9 @@ out/
 .idea/
 *.iml
 .DS_Store
+
+# Large intermediate artifacts (regenerate with tools/extract.sh)
+*.zip
+payload.bin
+*.img
+work/

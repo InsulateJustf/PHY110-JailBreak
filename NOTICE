@@ -1,0 +1,80 @@
+Third-party components
+======================
+
+Note: ksud is not bundled. The App executes the ksud payload
+(manager APK's lib/arm64/libksud.so or the randomized equivalent) in place.
+The manager APK itself is installed by the user.
+
+
+1. CVE-2026-64560 public tooling
+   Source: https://github.com/Feng1586/CVE-2026-64560-public
+   License: Apache-2.0
+   Used: historical source/flow reference only. The 64560 chain and its
+         binaries are no longer packed or deployed by the App.
+
+2. KernelSU
+   Source: https://github.com/tiann/KernelSU
+   License: GPL-2.0
+   Used: LKM source at build time; ksud and manager are distributed by upstream.
+
+3. KernelSU Next
+   Source: https://github.com/rifsxd/KernelSU-Next
+   License: GPL-2.0
+   Used: LKM source at build time; ksud / manager are upstream artifacts.
+
+4. BakaSU (formerly ReSukiSU)
+   Source: https://github.com/Baka-SU/BakaSU
+   License: GPL-2.0
+   Used: LKM source at build time; ksud / Manager-release are official CI artifacts.
+
+5. SukiSU Ultra
+   Source: https://github.com/SukiSU-Ultra/SukiSU-Ultra
+   License: GPL-3.0
+   Used: LKM source at build time; ksud / manager are upstream release artifacts.
+
+6. Miuix
+   Source: https://github.com/miuix-kotlin-multiplatform/miuix
+   License: Apache-2.0
+   Used: Compose UI components.
+
+7. CVE-2026-98260 OnePlus 16 (PYB110) temporary root kit
+   Source: https://github.com/AzirX1337/CVE-2026-98260-OnePlus16-PYB110-Jailbreak
+   License: MIT
+   Used: background and flow reference for the 98260 branch. The bundled
+         t98260 single-entry binary is built from exploit/rust-t98260 plus
+         the C plant in exploit/src in this repository. License text:
+         third_party/cve-2026-98260-LICENSES/AzirX1337-MIT.txt
+
+8. Shizuku API
+   Source: https://github.com/RikkaApps/Shizuku-API
+   License: Apache-2.0
+   Used: remote process execution.
+
+9. SUSFS guard LKM (susfs4ksu-lkm)
+   Source: https://github.com/inforcqb/susfs4ksu-lkm (commit b69dee4)
+   License: GPL-2.0 (full text: lkm/susfs4ksu-lkm/LICENSE)
+   Used: vendored SUSFS loadable kernel module source under
+         lkm/susfs4ksu-lkm/. Local modifications for BTI kernels are listed in
+         lkm/susfs4ksu-lkm/MODIFICATIONS.md.
+
+The application icon is drawn by this project.
+
+10. FinaSU
+   Source: https://github.com/LyraVoid/FinaSU
+   License: GPL-2.0
+   Used: LKM source at build time; ksud / manager are upstream release artifacts.
+
+11. YuKongA/CVE-2026-98260 (6.12.69-ex branch)
+   Source: https://github.com/YuKongA/CVE-2026-98260
+   License: none declared upstream (repository has no LICENSE file).
+   Used: timer.c modified with this project's fast-tuning and bundled as
+         assets/pyb110/t61269 for the experimental 6.12.69-ex option.
+         Redistribution is NOT cleared by the upstream author; treat this
+         binary as a local research build until a license/permission exists.
+
+12. Stellar (Shizuku fork) / Stellar API SDK
+   Source: https://github.com/roro2239/Stellar (manager),
+           https://github.com/roro2239/Stellar-API (SDK, JitPack com.github.roro2239:Stellar-API:1.0.3)
+   License: MPL-2.0 (Stellar modifications) / Apache-2.0 (Shizuku base code).
+   Used: privileged backend preferred at runtime (StellarProvider + roro.stellar API);
+         Shizuku (entry 8) remains the fallback backend.

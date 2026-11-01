@@ -27,6 +27,9 @@
 
 ```
 X7U-jailbreak/
+├── prebuilt/                       # 最小二进制集合（t98260 / rootdclient / KernelSU v3.3.1）
+│   └── kernelsu/                   # ksud + android14-6.1_kernelsu.ko + 管理器 APK（GPL-2.0，原样）
+├── kernel/                         # 目标内核镜像与符号表（vmlinux.elf / .nm / .btf）
 ├── exploit/
 │   ├── src/t98260_plant.c          # C 引擎（6.18 路径保留在 #ifndef 后，6.1 走 TARGET_PHY110_61）
 │   ├── src/t98260_phy110_61.h      # 本机全部常量（符号、结构体偏移、映射、时序）
@@ -88,6 +91,18 @@ bash tools/bootstrap-android.sh     # -> app/app/build/outputs/apk/debug/
 
 想要 release 包再补 signing：复制 `app/keystore.properties.example` 并跑
 `./gradlew :app:assembleRelease`。
+
+## 产物来源与未入库的大文件
+
+`prebuilt/` 与 `kernel/` 的每个文件都带 SHA-256 与其来源（见各自 README）。未入库的是
+体积超过 GitHub 单文件 100 MB 限制的中间产物，全部可由 `tools/extract.sh` 再生：
+
+| 文件 | 大小 | 再生 |
+|---|---|---|
+| OTA 全量包 `PHY110_16.0.10.500.zip` | 8.4 GB | OPPO `update/v5` 现场换 token |
+| `payload.bin` | 8.4 GB | 从 OTA zip 解出 |
+| `boot.img` / `vendor_boot.img` | 各 192 MB | `payload_dumper --partitions boot,vendor_boot` |
+| JDK / Android SDK / uv 工具链 | ~500 MB | `bash tools/bootstrap-android.sh` |
 
 ## 实测完整流程（2026-11-01）
 
