@@ -31,3 +31,6 @@ out/
 payload.bin
 *.img
 work/
+
+# Local docs / handoff / screenshots are kept on disk, not tracked
+docs/
