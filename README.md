@@ -1,6 +1,6 @@
 # X7U Root — OPPO Find X7 Ultra (PHY110) 一键越狱工程
 
-把 [OnePlus16-Jailbreak](../OnePlus16-Jailbreak) 的 **CVE-2026-98260** 引擎移植到
+把 [OnePlus16-Jailbreak]([../OnePlus16-Jailbreak](https://github.com/Yunnijian/OnePlus16-Jailbreak)) 的 **CVE-2026-98260** 引擎移植到
 **OPPO Find X7 Ultra（PHY110，ColorOS 16.1，内核 `6.1.141-android14-11-o-gb6893081c037`）**，
 并在原 Android App 基础上改造成本机型的一键前端。
 
