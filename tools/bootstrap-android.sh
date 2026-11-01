@@ -31,9 +31,9 @@ fi
 echo "== sdk packages =="
 yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$SDK" --licenses >/dev/null || true
 "$SDK/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$SDK" \
-  "platforms;android-37" "build-tools;37.0.0" "platform-tools" 2>&1 | tail -5 || \
+  "platforms;android-37.0" "build-tools;37.0.0" "platform-tools" 2>&1 | tail -5 || \
 "$SDK/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$SDK" \
-  "platforms;android-37" "platform-tools" 2>&1 | tail -5
+  "platforms;android-37.0" "platform-tools" 2>&1 | tail -5
 
 echo "sdk.dir=$SDK" > "$ROOT/app/local.properties"
 

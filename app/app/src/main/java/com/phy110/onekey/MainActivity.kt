@@ -198,7 +198,7 @@ class MainActivity : ComponentActivity() {
                         contentWindowInsets = WindowInsets.systemBars.only(WindowInsetsSides.Top),
                         topBar = {
                             TopAppBar(
-                                title = "Shark",
+                                title = "X7U Root",
                                 scrollBehavior = scrollBehavior
                             )
                         }
