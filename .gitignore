@@ -1,0 +1,25 @@
+# Android / Gradle
+.gradle/
+app/**/build/
+local.properties
+.kotlin/
+*.apk
+*.aab
+
+# Signing
+keystore.properties
+keystore/
+*.jks
+*.keystore
+
+# Rust
+exploit/rust-t98260/target/
+
+# Local artifacts (OTA, boot.img, vmlinux, built binaries)
+work/
+out/
+
+# IDE / macOS
+.idea/
+*.iml
+.DS_Store

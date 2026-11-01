@@ -1,0 +1,9 @@
+-keep class moe.shizuku.** { *; }
+-keep class rikka.shizuku.** { *; }
+-keep class com.pyb110.onekey.MainActivity { *; }
+-dontwarn moe.shizuku.**
+-dontwarn rikka.shizuku.**
+-keep class roro.stellar.** { *; }
+-keep class com.stellar.** { *; }
+-dontwarn roro.stellar.**
+-dontwarn com.stellar.**
