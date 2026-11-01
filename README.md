@@ -92,21 +92,6 @@ bash tools/bootstrap-android.sh     # -> app/app/build/outputs/apk/debug/
 想要 release 包再补 signing：复制 `app/keystore.properties.example` 并跑
 `./gradlew :app:assembleRelease`。
 
-## 产物来源与未入库的大文件
-
-`prebuilt/` 与 `kernel/` 的每个文件都带 SHA-256 与其来源（见各自 README）。未入库的是
-体积超过 GitHub 单文件 100 MB 限制的中间产物，全部可由 `tools/extract.sh` 再生：
-
-| 文件 | 大小 | 再生 |
-|---|---|---|
-| OTA 全量包 `PHY110_16.0.10.500.zip` | 8.4 GB | OPPO `update/v5` 现场换 token |
-| `payload.bin` | 8.4 GB | 从 OTA zip 解出 |
-| `boot.img` / `vendor_boot.img` | 各 192 MB | `payload_dumper --partitions boot,vendor_boot` |
-| JDK / Android SDK / uv 工具链 | ~1.3 GB | `bash tools/bootstrap-android.sh` |
-
-这些文件**不删**：它们已归档在本仓库工作区的 `work/`（`work/ota`、`work/out`、`work/bin`、
-`work/kernelsu`、`work/src`、`work/tools`），只是被 `.gitignore` 排除在 git 之外。
-`work/` 里同时保留了原工程的 `NOTES-old-repo.md` 与实机截图。
 
 ## 实测完整流程（2026-11-01）
 
